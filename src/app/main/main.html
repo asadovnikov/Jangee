@@ -1,0 +1,35 @@
+<div layout="vertical" layout-fill>
+  <md-content flex>
+    <header>
+      <acme-navbar creation-date="main.creationDate"></acme-navbar>
+    </header>
+    <div class="techs container" ng-repeat="imageChunk in chunks" ng-photo-grid images="imageChunk" grid-options="gridOptions">
+      <!--<div masonry>-->
+        <!--<div class="masonry-brick" ng-repeat="awesomeThing in main.awesomeThings"  ng-style="{-->
+                        <!--'background-color': awesomeThing.primaryColor-->
+                      <!--}">-->
+          <!--<img ng-src="{{ awesomeThing.url }}" alt="{{ awesomeThing.name }}" />-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<md-grid-list flex-->
+              <!--md-cols="1" md-cols-sm="2" md-cols-md="12" md-cols-gt-md="16"-->
+              <!--md-row-height-gt-md="1:1" md-row-height="4:3"-->
+              <!--md-gutter="8px" md-gutter-gt-sm="4px" >-->
+
+        <!--<md-grid-tile ng-repeat="awesomeThing in main.awesomeThings"-->
+                      <!--md-rowspan="{{awesomeThing.row}}"-->
+                      <!--md-colspan="{{awesomeThing.column}}"-->
+                      <!--md-colspan-sm="1"-->
+                      <!--md-colspan-xs="1" >-->
+          <!--<div flex ng-style="{-->
+                        <!--'background-color': awesomeThing.primaryColor,-->
+                        <!--'background': 'url(' + awesomeThing.url + ')'-->
+                      <!--}" class="imageContainer">&nbsp</div>-->
+          <!--&lt;!&ndash;<img ng-src="{{ awesomeThing.url }}" alt="{{ awesomeThing.name }}" />&ndash;&gt;-->
+          <!--<md-grid-tile-footer><h3>{{awesomeThing.name}}</h3></md-grid-tile-footer>-->
+        <!--</md-grid-tile>-->
+      <!--</md-grid-list>-->
+    </div>
+  </md-content>
+
+</div>
