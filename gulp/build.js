@@ -19,7 +19,7 @@ var $ = require('gulp-load-plugins')({
 });
 
 gulp.task('imagemin', function(){
-  gulp.src('src/assets/images/compressed/*')
+  gulp.src('src/assets/images/for/*')
     .pipe(imagemin({
       progressive: true
     }))

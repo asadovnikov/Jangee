@@ -49,71 +49,85 @@
 
       var previousPosition =  $(window).scrollTop();
 
+      function moveHorizontaly(el, pos, previousPosition){
+        var horOffset = el.parent().width() - el.width();
+        var velocity = horOffset/$(window).width();
+        velocity = velocity*-1;
+        var newPosition = el.position().left - (((pos - previousPosition)*velocity));
+
+        var delta = el.parent().width() - el.width();
+
+        var deltaOffset = newPosition > 0 ? newPosition : newPosition*-1;
+        var modalDelta = delta > 0 ? delta: delta* -1;
+        if(deltaOffset > modalDelta)
+        {
+          return;
+        }
+
+        if(newPosition > 0)
+        {
+          return;
+        }
+        el.attr('data-top', newPosition);
+
+        el.css({
+          left: newPosition + 'px'
+        });
+
+      }
+
+      function moveVerticaly(el, pos, previousPosition){
+        var imgOffset = el.parent().height() - el.height();
+        var imgVelocity = imgOffset/$(window).height();
+        imgVelocity = imgVelocity*-1;
+
+        var newPosition = el.position().top - (((pos - previousPosition)*imgVelocity));
+        if(newPosition > 0)
+        {
+          return;
+        }
+
+        var delta = el.parent().height() - el.height();
+
+        var deltaOffset = newPosition > 0 ? newPosition : newPosition*-1;
+        var modalDelta = delta > 0 ? delta: delta* -1;
+        if(deltaOffset > modalDelta)
+        {
+          return;
+        }
+
+
+        el.attr('data-top', newPosition);
+
+        el.css({
+          top: newPosition + 'px'
+        });
+
+      }
+
 
       $(window).scroll(function(){
-        var velocity = 0.5;
         var viewLineOffset = 0;
         var pos = $(window).scrollTop();
         var viewLine = pos + $(window).height() - viewLineOffset; //bottomline
-        console.log(viewLine);
+
+
 
         $('.photo-grid-wrapper img').each(function(index, value){
 
           var el = $(value);
 
-          if(el.parent().offset().top > viewLine)
+          if(el.parent().offset().top > viewLine || el.parent().offset().top + el.parent().height() + $(window).height() < viewLine)
           {
             return;
           }
 
-          if(el.parent().offset().top + el.parent().height() + $(window).height() < viewLine){
-            return;
+          if(el.width() > el.parent().width())
+          {
+            moveHorizontaly(el, pos, previousPosition);
           }
-
-          if(el.attr('data-image') === 'imgTall'){
-
-            var imgVelocity = el.attr('data-velocity');
-            if(imgVelocity === undefined) {
-              var imgOffset = el.parent().height() - el.height();
-              imgVelocity = imgOffset/$(window).height();
-              imgVelocity = imgVelocity*-1;
-              el.attr('data-velocity', imgVelocity);
-            }
-
-            var newPosition = el.position().top - (((pos - previousPosition)*imgVelocity));
-
-            el.attr('data-top', newPosition);
-
-            el.css({
-              top: newPosition + 'px'
-            });
-            if(el.attr('src') === '%2Fassets%2Fimages%2Fcompressed%2Frabbit.jpg')
-            {
-              console.log('previous position: ' + previousPosition);
-              console.log('scroll position: ' + pos);
-              console.log('scrollDiff: ' + (pos - previousPosition));
-              console.log('pos ' + el.position().top);
-              console.log('new position for rabbit is: ' + newPosition);
-            }
-
-          }
-          else{
-            var imgVelocity = el.attr('data-velocity');
-            if(imgVelocity === undefined) {
-              var imgOffset = el.parent().width() - el.width();
-              imgVelocity = imgOffset/$(window).width();
-              imgVelocity = imgVelocity*-1;
-              el.attr('data-velocity', imgVelocity);
-            }
-            var newPosition = el.position().left - (((pos - previousPosition)*imgVelocity));
-
-            el.attr('data-top', newPosition);
-
-            el.css({
-              left: newPosition + 'px'
-            });
-
-
+          if(el.height() > el.parent().height()){
+            moveVerticaly(el, pos, previousPosition);
           }
 
         });
@@ -123,7 +137,7 @@
 
     function getWebDevTec() {
 
-      $http.get('/app/info.json').then(function(response){
+      $http.get('app/info.json').then(function(response){
         vm.awesomeThings = response.data;
         var imageChunk = [];
         $scope.images = [];
